@@ -1,7 +1,7 @@
 package model;
 
 public class Edge {
-    private final int x1, y1, x2, y2;
+    private int x1, y1, x2, y2;
 
     public Edge(int x1, int y1, int x2, int y2) {
         this.x1 = x1;
@@ -24,7 +24,22 @@ public class Edge {
 
     public void orientate()
     {
-        // TODO: Orientuj me
+        if (y1 <= y2) return;
+        int temp = y1;
+        y1 = y2;
+        y2 = temp;
+
+        temp = x1;
+        x1 = x2;
+        x2 = temp;
+    }
+
+    public double getInterceptionY(int y)
+    {
+        double k = (double)(x2 - x1) / (y2 - y1);
+        double q = -k * y1 + x1;
+
+        return (k * y) + q;
     }
 
     public int getX1() {

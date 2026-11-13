@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ScanlineFiller implements Filler {
 
-    private int fillColor = 0xff00ff;
+    private int fillColor = 0x00A0A0;
     private Polygon polygon;
     private final Raster raster;
 
@@ -27,6 +27,8 @@ public class ScanlineFiller implements Filler {
         if (polygon == null) return;
         if (polygon.getSize() < 3) return;
 
+        int yMin = Integer.MAX_VALUE;
+        int yMax = Integer.MIN_VALUE;
         List<Edge> edges = new ArrayList<Edge>();
         for (int i = 0; i < polygon.getSize(); i++) {
             Point2D pointA = polygon.getPoint(i);
@@ -35,14 +37,39 @@ public class ScanlineFiller implements Filler {
             Edge edge = new Edge(pointA, pointB);
             if (edge.isHorizontal()) continue;
             edge.orientate();
+
+            if (edge.getY2() > yMax) yMax = edge.getY2();
+            if (edge.getY1() < yMin) yMin = edge.getY1();
+
             edges.add(edge);
         }
 
-        // TODO: Najit min max x a y
-        int yMin = 0;
-        int yMax = 600;
+        List<Double> intersections = new ArrayList<>();
+
         for (int y = 0; y < yMax; y++ ) {
-            // TODO: pro danou scanline, existuje prusecik s jakoukoliv hranou
+            intersections.clear();
+            for(Edge edge : edges){
+                if(y < edge.getY1() || y >= edge.getY2()) continue;
+
+                double x = edge.getInterceptionY(y);
+                intersections.add(x);
+            }
+
+            intersections.sort(null);
+            if (intersections.size() < 2) continue;
+
+            boolean fillIn = true;
+            int nextIndex = 1;
+            for (int x = (int)Math.floor(intersections.getFirst()); x <= (int)Math.ceil(intersections.getLast()); x++)
+            {
+                if (Math.ceil(intersections.get(nextIndex)) == x)
+                {
+                    nextIndex++;
+                    fillIn = !fillIn;
+                }
+                if (fillIn)
+                    raster.setPixel(x,y, fillColor);
+            }
         }
     }
 
