@@ -3,6 +3,7 @@ package fill;
 import model.Edge;
 import model.Point2D;
 import model.Polygon;
+import raster.Raster;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,11 @@ public class ScanlineFiller implements Filler {
 
     private int fillColor = 0xff00ff;
     private Polygon polygon;
+    private final Raster raster;
 
+    public ScanlineFiller(Raster raster) {
+        this.raster = raster;
+    }
 
     public void setPolygon(Polygon polygon) {
         this.polygon = polygon;
@@ -36,7 +41,7 @@ public class ScanlineFiller implements Filler {
         // TODO: Najit min max x a y
         int yMin = 0;
         int yMax = 600;
-        for (int y = 0; y <= yMax; y++ ) {
+        for (int y = 0; y < yMax; y++ ) {
             // TODO: pro danou scanline, existuje prusecik s jakoukoliv hranou
         }
     }
