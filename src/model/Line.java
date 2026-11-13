@@ -44,6 +44,21 @@ public class Line {
             return 0;
     }
 
+    public int getInterceptionY(int y)
+    {
+        double k = (double)(end.getX() - start.getX()) / (end.getY() - start.getY());
+        double q = -k * start.getY() + start.getX();
+
+        return (int)Math.round((k * y) + q);
+    }
+
+    public int getInteraceptionX(int x)
+    {
+        double k = (double)(end.getY() - start.getY()) / (end.getX() - start.getX());
+        double q = -k * start.getX() + start.getY();
+
+        return (int)Math.round((k * x) + q);
+    }
 
     // Metoda vrátí konec úsečky který je nejblíž vstupnímu bodu
     public Point2D getClosestPoint(int x, int y) {

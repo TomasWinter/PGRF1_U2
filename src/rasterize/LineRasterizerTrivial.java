@@ -3,6 +3,9 @@ package rasterize;
 import raster.Raster;
 
 public class LineRasterizerTrivial extends LineRasterizer {
+
+    static final int lineColor = 0xffffff;
+
     public LineRasterizerTrivial(Raster raster) {
         super(raster);
     }
@@ -14,10 +17,10 @@ public class LineRasterizerTrivial extends LineRasterizer {
         if (x1 == x2) {
             if (y1 < y2)
                 for (int y = y1; y <= y2; y++)
-                    raster.setPixel(x1, y, 0xffffff);
+                    raster.setPixel(x1, y, lineColor);
             else
                 for (int y = y2; y <= y1; y++)
-                    raster.setPixel(x1, y, 0xffffff);
+                    raster.setPixel(x1, y, lineColor);
             return;
         }
 
@@ -41,7 +44,7 @@ public class LineRasterizerTrivial extends LineRasterizer {
             for (int y = y1; y <= y2; y++) {
                 int x = (int) (k * y + q);
 
-                raster.setPixel(x, y, 0xffffff);
+                raster.setPixel(x, y, lineColor);
             }
         } else {
             if (x1 > x2) // prohození hodnot x, aby x1 vždy bylo menší
@@ -54,7 +57,7 @@ public class LineRasterizerTrivial extends LineRasterizer {
             for (int x = x1; x <= x2; x++) {
                 int y = (int) (k * x + q);
 
-                raster.setPixel(x, y, 0xffffff);
+                raster.setPixel(x, y, lineColor);
             }
         }
     }

@@ -111,4 +111,11 @@ public class EditController2D extends ControllerAdapter {
         else
             currentPoint = closestPoint;
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }

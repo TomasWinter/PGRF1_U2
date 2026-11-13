@@ -36,11 +36,12 @@ public class FillController2D extends ControllerAdapter {
     public void clear()
     {
         seedFill.setSeed(null);
+        seedFill.clearFill();
     }
 
     public void fillRaster()
     {
-        seedFill.fill();
+        seedFill.paint();
     }
 
     @Override
@@ -49,6 +50,7 @@ public class FillController2D extends ControllerAdapter {
         if (e.getButton() != MouseEvent.BUTTON2) return;
 
         seedFill.setSeed(new Point2D(e.getX(),e.getY()));
+        seedFill.fill();
         drawScene.run();
     }
 }

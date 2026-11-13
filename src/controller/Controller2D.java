@@ -5,9 +5,11 @@ import fill.SeedFiller;
 import model.Line;
 import model.Point2D;
 import model.Polygon;
+import model.Rectangle;
 import rasterize.LineRasterizer;
 import rasterize.LineRasterizerTrivial;
 import rasterize.PolygonRasterizer;
+import rasterize.RectangleRasterizer;
 import view.Panel;
 
 import java.awt.event.KeyAdapter;
@@ -21,17 +23,19 @@ public class Controller2D {
     private final Panel panel;
 
     public enum Modes {
-        LINE, POLYGON
+        LINE, POLYGON, CROP
     }
 
     // Rasterizers
     private final LineRasterizer lineRasterizer;
     private final PolygonRasterizer polygonRasterizer;
+    private final RectangleRasterizer rectangleRasterizer;
     // Controllers
     final LineController2D lineController;
     final PolygonController2D polygonController;
     final EditController2D editController;
     final FillController2D fillController;
+    final CropController2D cropController;
 
     private final List<Polygon> polygonList = new ArrayList<>();
     private final List<Line> lineList = new ArrayList<>();
@@ -47,10 +51,12 @@ public class Controller2D {
         polygonController = new PolygonController2D(panel,polygonList,this::drawScene);
         editController = new EditController2D(panel,lineList,polygonList,this,this::drawScene);
         fillController = new FillController2D(panel,polygonList,this::drawScene);
+        cropController = new CropController2D(panel,panel.getRaster(),lineList,this::drawScene);
         lineController.setEnabled(true);
 
         lineRasterizer = new LineRasterizerTrivial(panel.getRaster());
         polygonRasterizer = new PolygonRasterizer(lineRasterizer);
+        rectangleRasterizer = new RectangleRasterizer(panel.getRaster());
 
         initListeners();
     }
@@ -65,14 +71,27 @@ public class Controller2D {
                     {
                         lineController.setEnabled(false);
                         polygonController.setEnabled(true);
+                        editController.setEnabled(true);
+                        cropController.setEnabled(false);
                         currentMode = Modes.POLYGON;
                     }
-                    else
+                    else if (currentMode == Modes.POLYGON)
                     {
+                        lineController.setEnabled(false);
                         polygonController.setEnabled(false);
+                        editController.setEnabled(false);
+                        cropController.setEnabled(true);
+                        currentMode = Modes.CROP;
+                    }
+                    else if (currentMode == Modes.CROP)
+                    {
                         lineController.setEnabled(true);
+                        polygonController.setEnabled(false);
+                        editController.setEnabled(true);
+                        cropController.setEnabled(false);
                         currentMode = Modes.LINE;
                     }
+                    drawScene();
                     System.out.println("Switched editing to " + currentMode);
                 }
             }
@@ -82,12 +101,15 @@ public class Controller2D {
     private void drawScene() {
         panel.getRaster().clear();
 
+        fillController.fillRaster();
+
         for (Line l : lineList)
             lineRasterizer.rasterize(l);
         for (Polygon p : polygonList)
             polygonRasterizer.rasterize(p);
 
-        fillController.fillRaster();
+        if (currentMode == Modes.CROP)
+            cropController.renderCropArea();
 
         panel.repaint();
     }
