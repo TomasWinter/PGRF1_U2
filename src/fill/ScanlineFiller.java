@@ -4,6 +4,7 @@ import model.Edge;
 import model.Point2D;
 import model.Polygon;
 import raster.Raster;
+import sort.SelectionSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class ScanlineFiller implements Filler {
                 intersections.add(x);
             }
 
-            intersections.sort(null);
+            SelectionSort.sort(intersections); // vlastní implementace selection sort
             if (intersections.size() < 2) continue;
 
             // mezi každou dvojicí průsečíků se vybarví plocha
