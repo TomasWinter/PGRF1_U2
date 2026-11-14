@@ -21,7 +21,12 @@ public class SeedFiller implements Filler {
     public void fill() {
         if (seed == null) return;
         backgroundColor = raster.getPixel(seed.getX(), seed.getY());
-        fill(seed.getX(), seed.getY());
+        try {
+            fill(seed.getX(), seed.getY());
+        } catch (StackOverflowError e) {
+            e.printStackTrace();
+        }
+
     }
 
     void fill(int x, int y) {

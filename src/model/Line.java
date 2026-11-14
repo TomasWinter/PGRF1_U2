@@ -23,27 +23,6 @@ public class Line {
         else end.set(x, y);
     }
 
-    public int getRelativePos(int x, int y)
-    {
-        Vector2 tVector = new Vector2(end.getX() - start.getX(), end.getY() - start.getY());
-        Vector2 normalToT = tVector.getNormal();
-        Vector2 vectorToPoint = new  Vector2((x - start.getX()), (y - start.getY()));
-
-        Vector2 normalToTNormalized = normalToT.getNormalized();
-        Vector2 vectorToPointNormalized = vectorToPoint.getNormalized();
-
-        float skalar =normalToTNormalized.getX() * vectorToPointNormalized.getX() + normalToTNormalized.getY() * vectorToPointNormalized.getY();
-
-        System.out.println("skalar = " + skalar);
-
-        if (skalar > 0)
-            return -1;
-        else if (skalar < 0)
-            return 1;
-        else
-            return 0;
-    }
-
     public int getInterceptionY(int y)
     {
         double k = (double)(end.getX() - start.getX()) / (end.getY() - start.getY());
@@ -52,7 +31,7 @@ public class Line {
         return (int)Math.round((k * y) + q);
     }
 
-    public int getInteraceptionX(int x)
+    public int getInterceptionX(int x)
     {
         double k = (double)(end.getY() - start.getY()) / (end.getX() - start.getX());
         double q = -k * start.getX() + start.getY();

@@ -17,7 +17,7 @@ public class PolygonRasterizer {
         if (polygon == null) return;
         if (polygon.getSize() == 0) return;
 
-        if (polygon.getSize() > 2)
+        if (polygon.getSize() > 2 && polygon.isFilled()) // vyplnění polygonu pokud polygon má mít vyplnění
         {
             filler.setPolygon(polygon);
             filler.fill();
@@ -26,14 +26,17 @@ public class PolygonRasterizer {
         if (polygon.getSize() == 1) //vykreslení bodu, když polygon má jen jeden bod
         {
             Point2D point = polygon.getPoint(0);
-            lineRasterizer.getRaster().setPixel(point.getX(), point.getY(), 0xffffff);
+            lineRasterizer.getRaster().setPixel(point.getX(), point.getY(), polygon.getEdgeColor());
             return;
         }
 
+        int originalColor = lineRasterizer.getLineColor();
+        lineRasterizer.setLineColor(polygon.getEdgeColor());
         for (int i = 0; i < polygon.getSize(); i++) {
             Point2D pointA = polygon.getPoint(i);
             Point2D pointB = polygon.getPoint((i + 1) % polygon.getSize());
             lineRasterizer.rasterize(pointA.getX(), pointA.getY(), pointB.getX(), pointB.getY());
         }
+        lineRasterizer.setLineColor(originalColor);
     }
 }

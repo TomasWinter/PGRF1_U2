@@ -1,6 +1,7 @@
 package controller;
 
 import adapters.ControllerAdapter;
+import model.Edge;
 import model.Line;
 import model.Point2D;
 import raster.Raster;
@@ -11,19 +12,20 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
+import java.util.List;
 
 // Tato třída je kontroler co slouží pro vytváření čar
 public class LineController2D extends ControllerAdapter {
     private boolean enabled = false;
     private final Runnable drawScene;
-    private final Collection<Line> lineList;
+    private final List<Line> lineList;
 
     private boolean holdingShift = false;
     private Line currentLine = null;
     private Point2D focusPoint = null;
     private Point2D secondaryPoint = null;
 
-    public LineController2D(JPanel panel, Collection<Line> lineList, Runnable drawScene) {
+    public LineController2D(JPanel panel, List<Line> lineList, Runnable drawScene) {
         this.lineList = lineList;
         this.drawScene = drawScene;
         InitListeners(panel);

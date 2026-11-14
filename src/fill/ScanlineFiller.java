@@ -8,6 +8,7 @@ import raster.Raster;
 import java.util.ArrayList;
 import java.util.List;
 
+// třída pro implementaci scanline algorytmu
 public class ScanlineFiller implements Filler {
 
     private int fillColor = 0x00A0A0;
@@ -34,21 +35,24 @@ public class ScanlineFiller implements Filler {
             Point2D pointA = polygon.getPoint(i);
             Point2D pointB = polygon.getPoint((i+1)%polygon.getSize());
 
+            // překonvertování bodů na hrany
             Edge edge = new Edge(pointA, pointB);
-            if (edge.isHorizontal()) continue;
-            edge.orientate();
+            if (edge.isHorizontal()) continue; // ignorování horizontálních stran
+            edge.orientate(); // srovnání hrany, aby zařatek byl první
 
+            // najití nejnižšího a nejvyššího bodu
             if (edge.getY2() > yMax) yMax = edge.getY2();
             if (edge.getY1() < yMin) yMin = edge.getY1();
 
             edges.add(edge);
         }
 
+        // seznam průsečíků hran
         List<Double> intersections = new ArrayList<>();
 
-        for (int y = 0; y < yMax; y++ ) {
+        for (int y = yMin; y < yMax; y++ ) {
             intersections.clear();
-            for(Edge edge : edges){
+            for(Edge edge : edges){ // detekce průsečíků na každém Y
                 if(y < edge.getY1() || y >= edge.getY2()) continue;
 
                 double x = edge.getInterceptionY(y);
@@ -58,17 +62,16 @@ public class ScanlineFiller implements Filler {
             intersections.sort(null);
             if (intersections.size() < 2) continue;
 
-            boolean fillIn = true;
-            int nextIndex = 1;
-            for (int x = (int)Math.floor(intersections.getFirst()); x <= (int)Math.ceil(intersections.getLast()); x++)
+            // mezi každou dvojicí průsečíků se vybarví plocha
+            for (int i = 0; i+1 < intersections.size(); i += 2)
             {
-                if (Math.ceil(intersections.get(nextIndex)) == x)
+                int startX = (int)Math.floor(intersections.get(i));
+                int endX = (int)Math.ceil(intersections.get(i+1));
+
+                for (int x = startX; x < endX; x++)
                 {
-                    nextIndex++;
-                    fillIn = !fillIn;
-                }
-                if (fillIn)
                     raster.setPixel(x,y, fillColor);
+                }
             }
         }
     }

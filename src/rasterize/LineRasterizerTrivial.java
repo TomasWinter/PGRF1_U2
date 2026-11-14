@@ -4,8 +4,6 @@ import raster.Raster;
 
 public class LineRasterizerTrivial extends LineRasterizer {
 
-    static final int lineColor = 0xffffff;
-
     public LineRasterizerTrivial(Raster raster) {
         super(raster);
     }

@@ -103,7 +103,7 @@ public class EditController2D extends ControllerAdapter {
             }
         }
 
-        if (closestPointDistance > 5) {
+        if (closestPointDistance > 5) { // ignorování dalekých bodů
             currentEditPolygon = null;
             currentEditLine = null;
             currentPoint = null;

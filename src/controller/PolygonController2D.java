@@ -12,12 +12,13 @@ import java.util.Collection;
 
 // Tato třída je kontroler sloužící pro vytváření polygonu
 public class PolygonController2D extends ControllerAdapter {
-    private boolean enabled = false;
-    private final Runnable drawScene;
-    private final Collection<Polygon> polygonList;
+    static final boolean IS_INSERTION_ENABLED = false;
+    protected boolean enabled = false;
+    protected final Runnable drawScene;
+    protected final Collection<Polygon> polygonList;
 
-    private Polygon currentPolygon;
-    private Point2D dragPoint;
+    protected Polygon currentPolygon;
+    protected Point2D dragPoint;
 
     public PolygonController2D(JPanel panel, Collection<Polygon> polygonList, Runnable drawScene) {
         this.drawScene = drawScene;
@@ -31,15 +32,12 @@ public class PolygonController2D extends ControllerAdapter {
         if (!enabled) return;
         if (e.getButton() != MouseEvent.BUTTON1) return;
 
-        if (currentPolygon == null) // Vytvoření nového polygonu
-        {
-            currentPolygon = new Polygon();
-            polygonList.add(currentPolygon);
-        }
+        if (currentPolygon == null || !polygonList.contains(currentPolygon)) // Vytvoření nového polygonu
+            createPolygon();
 
         Point2D point = new Point2D(e.getX(), e.getY());
 
-        if (currentPolygon.getSize() > 2) // když má polygon alespoň 3 body, následující bod se přidá na existující hranu
+        if (currentPolygon.getSize() > 2 && IS_INSERTION_ENABLED) // když má polygon alespoň 3 body, následující bod se přidá na existující hranu
         {
             int index = currentPolygon.getClosestEdge(e.getX(), e.getY());
             if (index > -1) {
@@ -54,6 +52,12 @@ public class PolygonController2D extends ControllerAdapter {
         }
 
         drawScene.run();
+    }
+
+    protected void createPolygon()
+    {
+        currentPolygon = new Polygon();
+        polygonList.add(currentPolygon);
     }
 
     @Override

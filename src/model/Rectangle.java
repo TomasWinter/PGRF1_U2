@@ -1,5 +1,6 @@
 package model;
 
+// Třída pro čtyřúhelníky
 public class Rectangle {
     int x1, x2, y1, y2;
 
@@ -18,7 +19,7 @@ public class Rectangle {
         this.y2 = y2;
     }
 
-    public void orientate()
+    public void orientate() // destruktivní seřazení čtverce
     {
         if (x1 > x2)
         {

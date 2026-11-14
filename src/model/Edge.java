@@ -22,6 +22,25 @@ public class Edge {
         return y1 == y2;
     }
 
+    public int getRelativePos(int x, int y)
+    {
+        Vector2 tVector = new Vector2(x2 - x1, y2 - y1);
+        Vector2 normalToT = tVector.getNormal();
+        Vector2 vectorToPoint = new  Vector2((x - x1), (y - y1));
+
+        Vector2 normalToTNormalized = normalToT.getNormalized();
+        Vector2 vectorToPointNormalized = vectorToPoint.getNormalized();
+
+        float scalar = normalToTNormalized.getX() * vectorToPointNormalized.getX() + normalToTNormalized.getY() * vectorToPointNormalized.getY();
+
+        if (scalar > 0)
+            return -1;
+        else if (scalar < 0)
+            return 1;
+        else
+            return 0;
+    }
+
     public void orientate()
     {
         if (y1 <= y2) return;
@@ -40,6 +59,24 @@ public class Edge {
         double q = -k * y1 + x1;
 
         return (k * y) + q;
+    }
+
+    public Point2D getInterceptionLine(Point2D start, Point2D end)
+    {
+        double k1 = (double)(y2 - y1) / (x2 - x1);
+        double q1 = -k1 * x1 + y1;
+
+        int xl1 = start.getX();
+        int yl1 = start.getY();
+        int xl2 = end.getX();
+        int yl2 = end.getY();
+        double k2 = (double)(yl2 - yl1) / (xl2 - xl1);
+        double q2 = -k2 * xl1 + yl1;
+
+        double x = (q2 - q1) / (k1 - k2);
+        double y = k1 * x + q1;
+
+        return new Point2D((int)x,(int)y);
     }
 
     public int getX1() {

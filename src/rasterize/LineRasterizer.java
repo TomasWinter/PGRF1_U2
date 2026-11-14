@@ -5,6 +5,7 @@ import raster.Raster;
 
 public abstract class LineRasterizer {
     protected Raster raster;
+    int lineColor = 0xffffff;
 
     public LineRasterizer(Raster raster) {
         this.raster = raster;
@@ -15,6 +16,14 @@ public abstract class LineRasterizer {
     public void rasterize(Line line) {
         if (line == null || line.getStart() == null || line.getEnd() == null) return;
         rasterize(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
+    }
+
+    public int getLineColor() {
+        return lineColor;
+    }
+
+    public void setLineColor(int lineColor) {
+        this.lineColor = lineColor;
     }
 
     public Raster getRaster() {

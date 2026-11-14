@@ -1,41 +1,37 @@
 package controller;
 
-import fill.ScanlineFiller;
-import fill.SeedFiller;
 import model.Line;
-import model.Point2D;
 import model.Polygon;
-import model.Rectangle;
 import rasterize.LineRasterizer;
 import rasterize.LineRasterizerTrivial;
 import rasterize.PolygonRasterizer;
-import rasterize.RectangleRasterizer;
 import view.Panel;
+import view.Window;
 
+import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controller2D {
     private final Panel panel;
+    private final JLabel label;
 
     public enum Modes {
-        LINE, POLYGON, CROP
+        LINE, POLYGON, LINE_CROP, POLYGON_CROP
     }
 
     // Rasterizers
     private final LineRasterizer lineRasterizer;
     private final PolygonRasterizer polygonRasterizer;
-    private final RectangleRasterizer rectangleRasterizer;
     // Controllers
     final LineController2D lineController;
     final PolygonController2D polygonController;
     final EditController2D editController;
     final FillController2D fillController;
-    final CropController2D cropController;
+    final LineCropController2D lineCropController;
+    final PolygonCropController2D polygonCropController;
 
     private final List<Polygon> polygonList = new ArrayList<>();
     private final List<Line> lineList = new ArrayList<>();
@@ -43,20 +39,21 @@ public class Controller2D {
     //Editing
     private Modes currentMode = Modes.LINE;
 
-    public Controller2D(Panel panel) {
-        this.panel = panel;
+    public Controller2D(Window window) {
+        this.panel = window.getPanel();
+        this.label = window.getEditModeLabel();
 
         // Vytvoření controllerů
         lineController = new LineController2D(panel,lineList,this::drawScene);
         polygonController = new PolygonController2D(panel,polygonList,this::drawScene);
         editController = new EditController2D(panel,lineList,polygonList,this,this::drawScene);
         fillController = new FillController2D(panel,polygonList,this::drawScene);
-        cropController = new CropController2D(panel,panel.getRaster(),lineList,this::drawScene);
+        lineCropController = new LineCropController2D(panel,panel.getRaster(),lineList,this::drawScene);
+        polygonCropController = new PolygonCropController2D(panel,polygonList,this::drawScene);
         lineController.setEnabled(true);
 
         lineRasterizer = new LineRasterizerTrivial(panel.getRaster());
         polygonRasterizer = new PolygonRasterizer(lineRasterizer);
-        rectangleRasterizer = new RectangleRasterizer(panel.getRaster());
 
         initListeners();
     }
@@ -67,32 +64,45 @@ public class Controller2D {
             public void keyPressed(KeyEvent e) {
                 // Klávesa V změní jaký tvar se vytváří
                 if (e.getKeyCode() == KeyEvent.VK_V) {
-                    if (currentMode == Modes.LINE)
+                    if (currentMode == Modes.LINE) // POLYGON MODE
                     {
                         lineController.setEnabled(false);
                         polygonController.setEnabled(true);
                         editController.setEnabled(true);
-                        cropController.setEnabled(false);
+                        lineCropController.setEnabled(false);
+                        polygonCropController.setEnabled(false);
                         currentMode = Modes.POLYGON;
                     }
-                    else if (currentMode == Modes.POLYGON)
+                    else if (currentMode == Modes.POLYGON) // LINE CROP MODE
                     {
                         lineController.setEnabled(false);
                         polygonController.setEnabled(false);
                         editController.setEnabled(false);
-                        cropController.setEnabled(true);
-                        currentMode = Modes.CROP;
+                        lineCropController.setEnabled(true);
+                        polygonCropController.setEnabled(false);
+                        currentMode = Modes.LINE_CROP;
                     }
-                    else if (currentMode == Modes.CROP)
+                    else if (currentMode == Modes.LINE_CROP) // POLYGON CROP MODE
+                    {
+                        lineController.setEnabled(false);
+                        polygonController.setEnabled(false);
+                        editController.setEnabled(true);
+                        lineCropController.setEnabled(false);
+                        polygonCropController.setEnabled(true);
+                        currentMode = Modes.POLYGON_CROP;
+                    }
+                    else if (currentMode == Modes.POLYGON_CROP) // LINE MODE
                     {
                         lineController.setEnabled(true);
                         polygonController.setEnabled(false);
                         editController.setEnabled(true);
-                        cropController.setEnabled(false);
+                        lineCropController.setEnabled(false);
+                        polygonCropController.setEnabled(false);
                         currentMode = Modes.LINE;
                     }
                     drawScene();
                     System.out.println("Switched editing to " + currentMode);
+                    label.setText("Edit mode: " + currentMode);
                 }
             }
         });
@@ -108,8 +118,8 @@ public class Controller2D {
         for (Polygon p : polygonList)
             polygonRasterizer.rasterize(p);
 
-        if (currentMode == Modes.CROP)
-            cropController.renderCropArea();
+        if (currentMode == Modes.LINE_CROP)
+            lineCropController.renderCropData();
 
         panel.repaint();
     }

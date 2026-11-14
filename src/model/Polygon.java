@@ -5,10 +5,16 @@ import java.util.List;
 
 //Třída pro ukládaní polygonů
 public class Polygon {
-    private final List<Point2D> points;
+    private List<Point2D> points;
+    private boolean isFilled = true; // určuje, jestli je polygon vyplnění
+    private int edgeColor = 0xFFFFFF;
 
     public Polygon() {
         points = new ArrayList<>();
+    }
+
+    public void setPoints(List<Point2D> points) {
+        this.points = points;
     }
 
     public void setPoint(Point2D point, int index) {
@@ -60,6 +66,35 @@ public class Polygon {
             }
         }
         return closestPointIndex;
+    }
+
+    // Metoda která vyhodnoti jestli je polygon cw pomocí shoelace formuly
+    public boolean isCounterClockwise()
+    {
+        int sum = 0;
+        for (int i = 0; i < points.size(); i++) {
+            Point2D pointA = points.get(i);
+            Point2D pointB = points.get((i + 1) % points.size());
+
+            sum += (pointB.getX() - pointA.getX()) * (pointB.getY() + pointA.getY());
+        }
+        return sum > 0;
+    }
+
+    public boolean isFilled() {
+        return isFilled;
+    }
+
+    public void setFilled(boolean filled) {
+        isFilled = filled;
+    }
+
+    public int getEdgeColor() {
+        return edgeColor;
+    }
+
+    public void setEdgeColor(int edgeColor) {
+        this.edgeColor = edgeColor;
     }
 
     // Metoda vrátí který bod na polygonu je nejblíž vstupnímu bodu

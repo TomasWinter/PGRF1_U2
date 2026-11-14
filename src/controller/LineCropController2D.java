@@ -3,7 +3,6 @@ package controller;
 import adapters.ControllerAdapter;
 import crop.LineCrop;
 import model.Line;
-import model.Polygon;
 import model.Rectangle;
 import raster.Raster;
 import rasterize.RectangleRasterizer;
@@ -13,20 +12,23 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
 
-public class CropController2D extends ControllerAdapter {
+// třída pro ovládání ořezávání
+public class LineCropController2D extends ControllerAdapter {
     private boolean enabled = false;
     private final Runnable drawScene;
     private final Collection<Line> lineList;
 
+    // ořez čar
     private RectangleRasterizer rectangleRasterizer;
     private boolean isDraggingArea = false;
     private Rectangle cropArea;
 
-    public CropController2D(JPanel panel, Raster raster, Collection<Line> lineList, Runnable drawScene) {
+    public LineCropController2D(JPanel panel, Raster raster, Collection<Line> lineList, Runnable drawScene) {
         this.lineList = lineList;
         this.drawScene = drawScene;
         this.rectangleRasterizer = new RectangleRasterizer(raster);
         rectangleRasterizer.setLineColor(0xff0000);
+
         InitListeners(panel);
     }
 
@@ -66,7 +68,7 @@ public class CropController2D extends ControllerAdapter {
         }
     }
 
-    public void renderCropArea()
+    public void renderCropData()
     {
         rectangleRasterizer.rasterize(cropArea);
     }
