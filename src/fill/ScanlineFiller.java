@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 // třída pro implementaci scanline algorytmu
-public class ScanlineFiller implements Filler {
-
+public class ScanlineFiller implements Filler, PatternFill {
+    private Pattern pattern = null;
     private int fillColor = 0x00A0A0;
     private Polygon polygon;
     private final Raster raster;
@@ -70,11 +70,23 @@ public class ScanlineFiller implements Filler {
                 int endX = (int)Math.ceil(intersections.get(i+1));
 
                 for (int x = startX; x < endX; x++)
-                {
-                    raster.setPixel(x,y, fillColor);
-                }
+                    setPixel(x,y);
             }
         }
+    }
+
+    private void setPixel(int x, int y)
+    {
+        int color = fillColor;
+
+        if (pattern != null)
+            color = pattern.getPixel(x,y);
+        raster.setPixel(x, y, color);
+    }
+
+    @Override
+    public void changePattern(Pattern pattern) {
+        this.pattern = pattern;
     }
 
     @Override

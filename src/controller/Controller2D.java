@@ -111,6 +111,9 @@ public class Controller2D {
     private void drawScene() {
         panel.getRaster().clear();
 
+        for (Polygon p : polygonList)
+            polygonRasterizer.rasterizeBackground(p);
+
         fillController.fillRaster();
 
         for (Line l : lineList)

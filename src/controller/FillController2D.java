@@ -1,6 +1,7 @@
 package controller;
 
 import adapters.ControllerAdapter;
+import fill.Pattern;
 import fill.ScanlineFiller;
 import fill.SeedFiller;
 import model.Line;
@@ -29,6 +30,8 @@ public class FillController2D extends ControllerAdapter {
 
         seedFill = new SeedFiller(panel.getRaster());
         scanFill = new ScanlineFiller(panel.getRaster());
+
+        seedFill.changePattern(Pattern.getGreenFace());
 
         InitListeners(panel);
     }

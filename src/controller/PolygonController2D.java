@@ -12,7 +12,7 @@ import java.util.Collection;
 
 // Tato třída je kontroler sloužící pro vytváření polygonu
 public class PolygonController2D extends ControllerAdapter {
-    static final boolean IS_INSERTION_ENABLED = false;
+    static final boolean IS_INSERTION_ENABLED = true;
     protected boolean enabled = false;
     protected final Runnable drawScene;
     protected final Collection<Polygon> polygonList;
