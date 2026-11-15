@@ -91,6 +91,7 @@ public class EditController2D extends ControllerAdapter {
         for (Polygon p : polygonList) {
             // Vzdálenost nejbližšího bodu polygonu se porovná s momentálně nejbližšim bodem
             Point2D point = p.getClosestPoint(x, y);
+            if (point == null) continue;
             double magnitude = Point2D.getMagnitudeBetween(point.getX(), point.getY(), x, y);
             if (magnitude <= closestPointDistance) {
                 closestPointDistance = magnitude;

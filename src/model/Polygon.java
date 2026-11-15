@@ -98,6 +98,8 @@ public class Polygon {
 
     // Metoda vrátí který bod na polygonu je nejblíž vstupnímu bodu
     public Point2D getClosestPoint(int x, int y) {
+        if (points.isEmpty()) return null;
+
         double closestDistance = Double.POSITIVE_INFINITY;
         int closestPointIndex = 0;
 
