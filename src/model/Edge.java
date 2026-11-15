@@ -17,18 +17,16 @@ public class Edge {
         this.y2 = p2.getY();
     }
 
-    public boolean isHorizontal()
-    {
+    public boolean isHorizontal() {
         return y1 == y2;
     }
 
     // vrací relativní pozici bodu k úsečce
     // -1 = vlevo, 1 = vpravo
-    public int getRelativePos(int x, int y)
-    {
+    public int getRelativePos(int x, int y) {
         Vector2 tVector = new Vector2(x2 - x1, y2 - y1);
         Vector2 normalToT = tVector.getNormal();
-        Vector2 vectorToPoint = new  Vector2((x - x1), (y - y1));
+        Vector2 vectorToPoint = new Vector2((x - x1), (y - y1));
 
         Vector2 normalToTNormalized = normalToT.getNormalized();
         Vector2 vectorToPointNormalized = vectorToPoint.getNormalized();
@@ -44,8 +42,7 @@ public class Edge {
     }
 
     // Metoda na srovnání souřadnic aby x1 a y1 byly nejmenšími body
-    public void orientate()
-    {
+    public void orientate() {
         if (y1 <= y2) return;
         int temp = y1;
         y1 = y2;
@@ -57,31 +54,29 @@ public class Edge {
     }
 
     // vrací prušečík na ose y
-    public double getInterceptionY(int y)
-    {
-        double k = (double)(x2 - x1) / (y2 - y1);
+    public double getInterceptionY(int y) {
+        double k = (double) (x2 - x1) / (y2 - y1);
         double q = -k * y1 + x1;
 
         return (k * y) + q;
     }
 
     // vrací prušečík mezi čárama
-    public Point2D getInterceptionLine(Point2D start, Point2D end)
-    {
-        double k1 = (double)(y2 - y1) / (x2 - x1);
+    public Point2D getInterceptionLine(Point2D start, Point2D end) {
+        double k1 = (double) (y2 - y1) / (x2 - x1);
         double q1 = -k1 * x1 + y1;
 
         int xl1 = start.getX();
         int yl1 = start.getY();
         int xl2 = end.getX();
         int yl2 = end.getY();
-        double k2 = (double)(yl2 - yl1) / (xl2 - xl1);
+        double k2 = (double) (yl2 - yl1) / (xl2 - xl1);
         double q2 = -k2 * xl1 + yl1;
 
         double x = (q2 - q1) / (k1 - k2);
         double y = k1 * x + q1;
 
-        return new Point2D((int)x,(int)y);
+        return new Point2D((int) x, (int) y);
     }
 
     public int getX1() {

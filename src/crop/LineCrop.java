@@ -7,19 +7,17 @@ import model.Rectangle;
 // třída na ořezávání čar čtyřúhelníkem
 public class LineCrop {
 
-    public static boolean CropLine(Line line, Rectangle rect)
-    {
+    public static boolean CropLine(Line line, Rectangle rect) {
         if (line == null) return false;
         if (rect == null) return false;
         rect.orientate(); // ořezávací ploše se přiřadí nejmenší x a y na x1 a y1
 
         // algorytmus se opakuje (maximálně 5x), dokud úsečka není správně oříznutá
-        for (int i = 0; i < 5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             Point2D point1 = line.getStart();
             Point2D point2 = line.getEnd();
-            byte val1 = comparePos(point1,rect);
-            byte val2 = comparePos(point2,rect);
+            byte val1 = comparePos(point1, rect);
+            byte val2 = comparePos(point2, rect);
 
             if ((val1 | val2) == 0) return false; // úsečka leží uvnitř
             if ((val1 & val2) != 0) return true; // úsečka leží kompletně mimo
@@ -32,8 +30,7 @@ public class LineCrop {
     }
 
     // metoda na porovnání a ohodnocení pozice bodu
-    private static byte comparePos(Point2D point, Rectangle rect)
-    {
+    private static byte comparePos(Point2D point, Rectangle rect) {
         int xMin = rect.getX1();
         int xMax = rect.getX2();
         int yMin = rect.getY1();
@@ -53,10 +50,8 @@ public class LineCrop {
     }
 
     // upravení pozice bodu podle jeho hodnocení
-    private static void setPointPos(Point2D point, byte val, Line line, Rectangle rect)
-    {
-        switch (val)
-        {
+    private static void setPointPos(Point2D point, byte val, Line line, Rectangle rect) {
+        switch (val) {
             // bod se nachází...
             case 0b1001: // vlevo nahoře
             case 0b0101: // vpravo nahoře

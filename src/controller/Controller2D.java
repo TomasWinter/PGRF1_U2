@@ -44,12 +44,12 @@ public class Controller2D {
         this.label = window.getEditModeLabel();
 
         // Vytvoření controllerů
-        lineController = new LineController2D(panel,lineList,this::drawScene);
-        polygonController = new PolygonController2D(panel,polygonList,this::drawScene);
-        editController = new EditController2D(panel,lineList,polygonList,this,this::drawScene);
-        fillController = new FillController2D(panel,polygonList,this::drawScene);
-        lineCropController = new LineCropController2D(panel,panel.getRaster(),lineList,this::drawScene);
-        polygonCropController = new PolygonCropController2D(panel,polygonList,this::drawScene);
+        lineController = new LineController2D(panel, lineList, this::drawScene);
+        polygonController = new PolygonController2D(panel, polygonList, this::drawScene);
+        editController = new EditController2D(panel, lineList, polygonList, this, this::drawScene);
+        fillController = new FillController2D(panel, polygonList, this::drawScene);
+        lineCropController = new LineCropController2D(panel, panel.getRaster(), lineList, this::drawScene);
+        polygonCropController = new PolygonCropController2D(panel, polygonList, this::drawScene);
         lineController.setEnabled(true);
 
         lineRasterizer = new LineRasterizerTrivial(panel.getRaster());
@@ -72,8 +72,7 @@ public class Controller2D {
                         lineCropController.setEnabled(false);
                         polygonCropController.setEnabled(false);
                         currentMode = Modes.POLYGON;
-                    }
-                    else if (currentMode == Modes.POLYGON) // LINE CROP MODE
+                    } else if (currentMode == Modes.POLYGON) // LINE CROP MODE
                     {
                         lineController.setEnabled(false);
                         polygonController.setEnabled(false);
@@ -81,8 +80,7 @@ public class Controller2D {
                         lineCropController.setEnabled(true);
                         polygonCropController.setEnabled(false);
                         currentMode = Modes.LINE_CROP;
-                    }
-                    else if (currentMode == Modes.LINE_CROP) // POLYGON CROP MODE
+                    } else if (currentMode == Modes.LINE_CROP) // POLYGON CROP MODE
                     {
                         lineController.setEnabled(false);
                         polygonController.setEnabled(false);
@@ -90,8 +88,7 @@ public class Controller2D {
                         lineCropController.setEnabled(false);
                         polygonCropController.setEnabled(true);
                         currentMode = Modes.POLYGON_CROP;
-                    }
-                    else if (currentMode == Modes.POLYGON_CROP) // LINE MODE
+                    } else if (currentMode == Modes.POLYGON_CROP) // LINE MODE
                     {
                         lineController.setEnabled(true);
                         polygonController.setEnabled(false);

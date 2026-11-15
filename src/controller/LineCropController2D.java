@@ -37,7 +37,7 @@ public class LineCropController2D extends ControllerAdapter {
         if (e.getButton() != MouseEvent.BUTTON1) return;
 
         isDraggingArea = true;
-        cropArea = new Rectangle(e.getX(),e.getY(),e.getX(),e.getY());
+        cropArea = new Rectangle(e.getX(), e.getY(), e.getX(), e.getY());
         drawScene.run();
     }
 
@@ -60,8 +60,7 @@ public class LineCropController2D extends ControllerAdapter {
     @Override
     public void keyPressed(KeyEvent e) { // po stisku enter se oříznou všechny čáry na plátně
         if (!enabled) return;
-        if (e.getKeyCode() == KeyEvent.VK_ENTER)
-        {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             lineList.removeIf(line -> LineCrop.CropLine(line, cropArea));
             drawScene.run();
         }
@@ -76,6 +75,7 @@ public class LineCropController2D extends ControllerAdapter {
     public boolean isEnabled() {
         return enabled;
     }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }

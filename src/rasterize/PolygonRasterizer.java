@@ -19,8 +19,7 @@ public class PolygonRasterizer {
         if (polygon == null) return;
         if (polygon.getSize() == 0) return;
 
-        if (polygon.isFilled() && polygon.getSize() > 2)
-        {
+        if (polygon.isFilled() && polygon.getSize() > 2) {
             // vyplnění polygonu pokud polygon má mít vyplnění
             filler.setPolygon(polygon);
             filler.fill();

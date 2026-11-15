@@ -19,7 +19,7 @@ public class Panel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(((RasterBufferedImage)raster).getImage(), 0, 0, null);
+        g.drawImage(((RasterBufferedImage) raster).getImage(), 0, 0, null);
     }
 
     public Raster getRaster() {

@@ -42,7 +42,7 @@ public class FillController2D extends ControllerAdapter {
         if (!enabled) return;
         if (e.getButton() != MouseEvent.BUTTON2) return;
 
-        seedFill.setSeed(new Point2D(e.getX(),e.getY()));
+        seedFill.setSeed(new Point2D(e.getX(), e.getY()));
         seedFill.fill();
         drawScene.run();
     }

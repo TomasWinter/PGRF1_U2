@@ -29,8 +29,7 @@ public class Point2D {
         this.y = y;
     }
 
-    public void toNormal()
-    {
+    public void toNormal() {
         int temp = x;
         this.x = -y;
         this.y = -temp;

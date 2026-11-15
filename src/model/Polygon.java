@@ -69,8 +69,7 @@ public class Polygon {
     }
 
     // Metoda která vyhodnoti jestli je polygon cw pomocí shoelace formuly
-    public boolean isCounterClockwise()
-    {
+    public boolean isCounterClockwise() {
         int sum = 0;
         for (int i = 0; i < points.size(); i++) {
             Point2D pointA = points.get(i);

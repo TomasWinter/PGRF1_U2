@@ -34,7 +34,7 @@ public class ScanlineFiller implements Filler, PatternFill {
         List<Edge> edges = new ArrayList<Edge>();
         for (int i = 0; i < polygon.getSize(); i++) {
             Point2D pointA = polygon.getPoint(i);
-            Point2D pointB = polygon.getPoint((i+1)%polygon.getSize());
+            Point2D pointB = polygon.getPoint((i + 1) % polygon.getSize());
 
             // překonvertování bodů na hrany
             Edge edge = new Edge(pointA, pointB);
@@ -51,10 +51,10 @@ public class ScanlineFiller implements Filler, PatternFill {
         // seznam průsečíků hran
         List<Double> intersections = new ArrayList<>();
 
-        for (int y = yMin; y < yMax; y++ ) {
+        for (int y = yMin; y < yMax; y++) {
             intersections.clear();
-            for(Edge edge : edges){ // detekce průsečíků na každém Y
-                if(y < edge.getY1() || y >= edge.getY2()) continue;
+            for (Edge edge : edges) { // detekce průsečíků na každém Y
+                if (y < edge.getY1() || y >= edge.getY2()) continue;
 
                 double x = edge.getInterceptionY(y);
                 intersections.add(x);
@@ -64,23 +64,21 @@ public class ScanlineFiller implements Filler, PatternFill {
             if (intersections.size() < 2) continue;
 
             // mezi každou dvojicí průsečíků se vybarví plocha
-            for (int i = 0; i+1 < intersections.size(); i += 2)
-            {
-                int startX = (int)Math.floor(intersections.get(i));
-                int endX = (int)Math.ceil(intersections.get(i+1));
+            for (int i = 0; i + 1 < intersections.size(); i += 2) {
+                int startX = (int) Math.floor(intersections.get(i));
+                int endX = (int) Math.ceil(intersections.get(i + 1));
 
                 for (int x = startX; x < endX; x++)
-                    setPixel(x,y);
+                    setPixel(x, y);
             }
         }
     }
 
-    private void setPixel(int x, int y)
-    {
+    private void setPixel(int x, int y) {
         int color = fillColor;
 
         if (pattern != null)
-            color = pattern.getPixel(x,y);
+            color = pattern.getPixel(x, y);
         raster.setPixel(x, y, color);
     }
 

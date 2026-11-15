@@ -55,25 +55,24 @@ public class LineController2D extends ControllerAdapter {
 
         if (holdingShift) // Snap
         {
-            double angle = (secondaryPoint.getY() - e.getY()) / (double)(secondaryPoint.getX() - e.getX());
+            double angle = (secondaryPoint.getY() - e.getY()) / (double) (secondaryPoint.getX() - e.getX());
             if (Math.abs(angle) > 1.3) // Vertikální čára
-                focusPoint.set(secondaryPoint.getX(),e.getY());
+                focusPoint.set(secondaryPoint.getX(), e.getY());
             else if (Math.abs(angle) < 0.7) // Horizontální čára
-                focusPoint.set(e.getX(),secondaryPoint.getY());
+                focusPoint.set(e.getX(), secondaryPoint.getY());
             else // Diagonální čara
             {
-                int diffX = (secondaryPoint.getX() - e.getX()) * -(int)Math.signum(angle);
-                int diffY = (secondaryPoint.getY() - e.getY()) * -(int)Math.signum(angle);
+                int diffX = (secondaryPoint.getX() - e.getX()) * -(int) Math.signum(angle);
+                int diffY = (secondaryPoint.getY() - e.getY()) * -(int) Math.signum(angle);
 
                 if (Math.abs(diffX) > Math.abs(diffY))
-                    focusPoint.set(e.getX(),secondaryPoint.getY()+diffX);
+                    focusPoint.set(e.getX(), secondaryPoint.getY() + diffX);
                 else
-                    focusPoint.set(secondaryPoint.getX()+diffY,e.getY());
+                    focusPoint.set(secondaryPoint.getX() + diffY, e.getY());
             }
-        }
-        else // Normální režim
+        } else // Normální režim
         {
-            focusPoint.set(e.getX(),e.getY());
+            focusPoint.set(e.getX(), e.getY());
         }
         drawScene.run();
     }
@@ -88,6 +87,7 @@ public class LineController2D extends ControllerAdapter {
     public boolean isEnabled() {
         return enabled;
     }
+
     public void setEnabled(boolean enabled) {
         currentLine = null;
         focusPoint = null;
@@ -100,6 +100,7 @@ public class LineController2D extends ControllerAdapter {
         if (e.getKeyCode() == KeyEvent.VK_SHIFT)
             holdingShift = true;
     }
+
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_SHIFT)

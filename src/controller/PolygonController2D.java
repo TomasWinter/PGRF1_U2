@@ -43,8 +43,7 @@ public class PolygonController2D extends ControllerAdapter {
                 currentPolygon.addPoint(point, index + 1);
                 dragPoint = point;
             }
-        }
-        else // Jinak se bod přidá na konec
+        } else // Jinak se bod přidá na konec
         {
             currentPolygon.addPoint(point, currentPolygon.getSize());
             dragPoint = point;
@@ -53,8 +52,7 @@ public class PolygonController2D extends ControllerAdapter {
         drawScene.run();
     }
 
-    protected void createPolygon()
-    {
+    protected void createPolygon() {
         currentPolygon = new Polygon();
         currentPolygon.setFilled(fillEnabled);
         polygonList.add(currentPolygon);
@@ -65,13 +63,13 @@ public class PolygonController2D extends ControllerAdapter {
         if (!enabled) return;
         if (e.getKeyCode() == KeyEvent.VK_ENTER) // Ukončení editace polygonu
             currentPolygon = null;
-        if (e.getKeyCode() == KeyEvent.VK_F){ // přepnutí vyplnění polygonu
+        if (e.getKeyCode() == KeyEvent.VK_F) { // přepnutí vyplnění polygonu
             fillEnabled = !fillEnabled;
-            if (currentPolygon != null){
+            if (currentPolygon != null) {
                 currentPolygon.setFilled(fillEnabled);
                 drawScene.run();
             }
-            System.out.println("Polygon fill switched to "+fillEnabled);
+            System.out.println("Polygon fill switched to " + fillEnabled);
         }
     }
 
@@ -80,7 +78,7 @@ public class PolygonController2D extends ControllerAdapter {
         if (!enabled) return;
         if (dragPoint == null) return;
         // Posunutí vytvořeného bodu
-        dragPoint.set(e.getX(),e.getY());
+        dragPoint.set(e.getX(), e.getY());
         drawScene.run();
     }
 
@@ -92,6 +90,7 @@ public class PolygonController2D extends ControllerAdapter {
     public boolean isEnabled() {
         return enabled;
     }
+
     public void setEnabled(boolean enabled) {
         dragPoint = null;
         this.enabled = enabled;

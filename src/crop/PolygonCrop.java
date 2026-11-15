@@ -10,8 +10,7 @@ import java.util.List;
 // třída na ořezávání polygonu konvexním polygonem
 public class PolygonCrop {
 
-    public static void cropPolygon(Polygon cropVictim, Polygon cropper)
-    {
+    public static void cropPolygon(Polygon cropVictim, Polygon cropper) {
         List<Edge> cropEdges = new ArrayList<>();
         boolean isCCW = cropper.isCounterClockwise(); // zjištění orientace
 
@@ -28,8 +27,7 @@ public class PolygonCrop {
         }
 
         // polygon se postupně ořízne každou hranou
-        for (Edge cropEdge : cropEdges)
-        {
+        for (Edge cropEdge : cropEdges) {
             List<Point2D> survivors = new ArrayList<>();
             for (int i = 0; i < cropVictim.getSize(); i++) {
                 Point2D start = cropVictim.getPoint(i);
@@ -39,13 +37,11 @@ public class PolygonCrop {
                 boolean startInside = cropEdge.getRelativePos(start.getX(), start.getY()) <= 0;
                 boolean endInside = cropEdge.getRelativePos(end.getX(), end.getY()) <= 0;
 
-                if (startInside && endInside){ // pokud ano, přidá se konec
+                if (startInside && endInside) { // pokud ano, přidá se konec
                     survivors.add(new Point2D(end.getX(), end.getY()));
-                }
-                else if (startInside && !endInside) { // pokud je konec venku, přidá se průsečík
+                } else if (startInside && !endInside) { // pokud je konec venku, přidá se průsečík
                     survivors.add(cropEdge.getInterceptionLine(start, end));
-                }
-                else if (!startInside && endInside) { // pokud je začatek venku, přidá se průsečík a konec
+                } else if (!startInside && endInside) { // pokud je začatek venku, přidá se průsečík a konec
                     survivors.add(cropEdge.getInterceptionLine(start, end));
                     survivors.add(new Point2D(end.getX(), end.getY()));
                 }

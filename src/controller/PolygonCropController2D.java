@@ -22,8 +22,7 @@ public class PolygonCropController2D extends PolygonController2D {
     public void keyPressed(KeyEvent e) {
         // Ukončení editace polygonu
         if (!enabled) return;
-        if (e.getKeyCode() == KeyEvent.VK_ENTER)
-        {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             currentPolygon = null;
             if (cropVictim != null && cropper != null) // oříznutí polygonu při stisku enter
             {
@@ -48,8 +47,7 @@ public class PolygonCropController2D extends PolygonController2D {
             cropVictim = currentPolygon;
             cropVictim.setEdgeColor(0x008080);
             cropVictim.setFilled(false);
-        }
-        else if (cropper == null) // nastavení řezacího polygonu
+        } else if (cropper == null) // nastavení řezacího polygonu
         {
             cropper = currentPolygon;
             cropper.setEdgeColor(0xFF0000);

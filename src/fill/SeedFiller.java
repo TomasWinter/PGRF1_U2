@@ -7,8 +7,6 @@ import raster.RasterBufferedImage;
 import java.util.Stack;
 
 public class SeedFiller implements Filler, PatternFill {
-    private static final boolean USE_RECURSIVE = false;
-
     private Pattern pattern = null;
     private final RasterBufferedImage filledRaster;
     private final Raster raster;
@@ -18,32 +16,15 @@ public class SeedFiller implements Filler, PatternFill {
 
     public SeedFiller(Raster raster) {
         this.raster = raster;
-        this.filledRaster = new RasterBufferedImage(raster.getWidth(),raster.getHeight());
+        this.filledRaster = new RasterBufferedImage(raster.getWidth(), raster.getHeight());
     }
 
     @Override
-    public void fill() {
+    public void fill() { // seedfill využívající stack
         if (seed == null) return;
-
-        if (USE_RECURSIVE) { // rekurzivní implementace
-            try {
-                fill_recursive(seed.getX(), seed.getY());
-            } catch (StackOverflowError e) { // zachycení stackOverflow
-                e.printStackTrace();
-            }
-        }
-        else { // stack implementace
-            fill_stack(seed);
-        }
-    }
-
-    // seedfill využívající stack
-    void fill_stack(Point2D seed)
-    {
         Stack<Point2D> stack = new Stack<>();
         stack.push(seed);
-        while (!stack.empty())
-        {
+        while (!stack.empty()) {
             Point2D currentPoint = stack.pop();
             int x = currentPoint.getX();
             int y = currentPoint.getY();
@@ -52,39 +33,24 @@ public class SeedFiller implements Filler, PatternFill {
             if (y >= raster.getHeight() || y < 0) continue;
             if (raster.getPixel(x, y) != backgroundColor) continue;
 
-            setPixel(x,y);
+            setPixel(x, y);
 
-            stack.push(new Point2D(x+1,y));
-            stack.push(new Point2D(x,y+1));
-            stack.push(new Point2D(x,y-1));
-            stack.push(new Point2D(x-1,y));
+            stack.push(new Point2D(x + 1, y));
+            stack.push(new Point2D(x, y + 1));
+            stack.push(new Point2D(x, y - 1));
+            stack.push(new Point2D(x - 1, y));
         }
     }
 
-    // rekurzivní verze seedfillu (zúůsobuje stackOverflow)
-    void fill_recursive(int x, int y) throws StackOverflowError {
-        if (x >= raster.getWidth() || x < 0) return ;
-        if (y >= raster.getHeight() || y < 0) return ;
-        if (raster.getPixel(x, y) != backgroundColor) return;
-
-        setPixel(x,y);
-
-        fill_recursive(x+1,y);
-        fill_recursive(x,y+1);
-        fill_recursive(x,y-1);
-        fill_recursive(x-1,y);
-    }
-
-    private void setPixel(int x, int y)
-    {
+    private void setPixel(int x, int y) {
         int color = fillColor;
 
         // získání pixelu patternu
         if (pattern != null)
-            color = pattern.getPixel(x,y);
+            color = pattern.getPixel(x, y);
 
         raster.setPixel(x, y, color); // vykreslení pixelu
-        filledRaster.setPixel(x,y,color); // uložení pixelu
+        filledRaster.setPixel(x, y, color); // uložení pixelu
     }
 
     @Override
@@ -101,20 +67,17 @@ public class SeedFiller implements Filler, PatternFill {
         this.seed = seed;
     }
 
-    public void clearFill()
-    {
+    public void clearFill() {
         filledRaster.clear();
     }
 
     // vyrenderování uloženého rastru
     public void paint() {
-        for (int x = 0; x < raster.getWidth(); x++)
-        {
-            for (int y = 0; y < raster.getHeight(); y++)
-            {
-                int color = filledRaster.getPixel(x,y);
+        for (int x = 0; x < raster.getWidth(); x++) {
+            for (int y = 0; y < raster.getHeight(); y++) {
+                int color = filledRaster.getPixel(x, y);
                 if (color == backgroundColor) continue;
-                raster.setPixel(x,y,color);
+                raster.setPixel(x, y, color);
             }
         }
     }

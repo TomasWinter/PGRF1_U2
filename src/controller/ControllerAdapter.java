@@ -7,8 +7,7 @@ import java.awt.event.*;
 // veškeré implamentace metod jsou kompletně prázdné
 public abstract class ControllerAdapter implements KeyListener, MouseMotionListener, MouseListener, MouseWheelListener {
 
-    protected void InitListeners(JPanel panel)
-    {
+    protected void InitListeners(JPanel panel) {
         panel.addKeyListener(this);
         panel.addMouseMotionListener(this);
         panel.addMouseListener(this);

@@ -23,20 +23,18 @@ public class Line {
         else end.set(x, y);
     }
 
-    public int getInterceptionY(int y)
-    {
-        double k = (double)(end.getX() - start.getX()) / (end.getY() - start.getY());
+    public int getInterceptionY(int y) {
+        double k = (double) (end.getX() - start.getX()) / (end.getY() - start.getY());
         double q = -k * start.getY() + start.getX();
 
-        return (int)Math.round((k * y) + q);
+        return (int) Math.round((k * y) + q);
     }
 
-    public int getInterceptionX(int x)
-    {
-        double k = (double)(end.getY() - start.getY()) / (end.getX() - start.getX());
+    public int getInterceptionX(int x) {
+        double k = (double) (end.getY() - start.getY()) / (end.getX() - start.getX());
         double q = -k * start.getX() + start.getY();
 
-        return (int)Math.round((k * x) + q);
+        return (int) Math.round((k * x) + q);
     }
 
     // Metoda vrátí konec úsečky který je nejblíž vstupnímu bodu

@@ -16,8 +16,7 @@ public class RectangleRasterizer {
     }
 
     // vykreslení čtyřúhelníků
-    public void rasterize(Rectangle rect)
-    {
+    public void rasterize(Rectangle rect) {
         if (rect == null) return;
 
         int xMin = rect.getX1();
@@ -26,30 +25,26 @@ public class RectangleRasterizer {
         int yMax = rect.getY2();
 
         // seřazení čtyřúhelníku bez modifikování původního čtyřúhelníku pro jednodušší vykraslení
-        if (xMin > xMax)
-        {
+        if (xMin > xMax) {
             int temp = xMin;
             xMin = xMax;
             xMax = temp;
         }
-        if (yMin > yMax)
-        {
+        if (yMin > yMax) {
             int temp = yMin;
             yMin = yMax;
             yMax = temp;
         }
 
-        for (int y = yMin; y <= yMax; y++)
-        {
+        for (int y = yMin; y <= yMax; y++) {
             // vertikální hrany
-            raster.setPixel(xMin,y,lineColor);
-            raster.setPixel(xMax,y,lineColor);
+            raster.setPixel(xMin, y, lineColor);
+            raster.setPixel(xMax, y, lineColor);
         }
-        for (int x = xMin; x <= xMax; x++)
-        {
+        for (int x = xMin; x <= xMax; x++) {
             // horizontální hrany
-            raster.setPixel(x,yMin,lineColor);
-            raster.setPixel(x,yMax,lineColor);
+            raster.setPixel(x, yMin, lineColor);
+            raster.setPixel(x, yMax, lineColor);
         }
     }
 }

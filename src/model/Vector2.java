@@ -9,25 +9,23 @@ public class Vector2 {
         this.y = y;
     }
 
-    public Vector2 getNormal()
-    {
-        return new Vector2(y,-x);
+    public Vector2 getNormal() {
+        return new Vector2(y, -x);
     }
 
-    public Vector2 getNormalized()
-    {
+    public Vector2 getNormalized() {
         float magnitude = getMagnitude();
-        return new Vector2(x/magnitude,y/magnitude);
+        return new Vector2(x / magnitude, y / magnitude);
     }
 
-    public float getMagnitude()
-    {
-        return (float)Math.sqrt(x*x + y*y);
+    public float getMagnitude() {
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     public float getX() {
         return x;
     }
+
     public float getY() {
         return y;
     }

@@ -21,7 +21,7 @@ public class EditController2D extends ControllerAdapter {
     private Polygon currentEditPolygon = null;
     private Line currentEditLine = null;
 
-    public EditController2D(JPanel panel, Collection<Line> lineList, Collection<Polygon> polygonList,Controller2D parentController ,Runnable drawScene) {
+    public EditController2D(JPanel panel, Collection<Line> lineList, Collection<Polygon> polygonList, Controller2D parentController, Runnable drawScene) {
         this.lineList = lineList;
         this.polygonList = polygonList;
         this.drawScene = drawScene;
@@ -30,13 +30,12 @@ public class EditController2D extends ControllerAdapter {
     }
 
 
-
     @Override
-    public void mousePressed(MouseEvent e){
+    public void mousePressed(MouseEvent e) {
         if (!enabled) return;
         if (e.getButton() != MouseEvent.BUTTON3) return;
         // Kliknutím pravým tlačítkem se označí nejbližší bod v určitém dosahu pro editaci
-        GetClosestPoint(e.getX(),e.getY());
+        GetClosestPoint(e.getX(), e.getY());
     }
 
     @Override
@@ -63,8 +62,7 @@ public class EditController2D extends ControllerAdapter {
             polygonList.clear();
             parentController.fillController.clear();
             drawScene.run();
-        }
-        else if (e.getKeyCode() == KeyEvent.VK_DELETE) // Klávesou DELETE se smaže editovaný bod (Pouze pro polygon)
+        } else if (e.getKeyCode() == KeyEvent.VK_DELETE) // Klávesou DELETE se smaže editovaný bod (Pouze pro polygon)
         {
             if (currentPoint == null || currentEditPolygon == null) return;
             currentEditPolygon.removePoint(currentPoint);
@@ -75,7 +73,7 @@ public class EditController2D extends ControllerAdapter {
     }
 
     // Funkce najde nejbližší bod ze všech tvarů
-    private void GetClosestPoint(int x,int y) {
+    private void GetClosestPoint(int x, int y) {
         Point2D closestPoint = null;
         double closestPointDistance = Double.POSITIVE_INFINITY;
 
@@ -106,14 +104,14 @@ public class EditController2D extends ControllerAdapter {
             currentEditPolygon = null;
             currentEditLine = null;
             currentPoint = null;
-        }
-        else
+        } else
             currentPoint = closestPoint;
     }
 
     public boolean isEnabled() {
         return enabled;
     }
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
