@@ -62,13 +62,16 @@ public class PolygonController2D extends ControllerAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        // Ukončení editace polygonu
         if (!enabled) return;
-        if (e.getKeyCode() == KeyEvent.VK_ENTER)
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) // Ukončení editace polygonu
             currentPolygon = null;
-        if (e.getKeyCode() == KeyEvent.VK_F){
+        if (e.getKeyCode() == KeyEvent.VK_F){ // přepnutí vyplnění polygonu
             fillEnabled = !fillEnabled;
-            System.out.println("Polygon fill switches to "+fillEnabled);
+            if (currentPolygon != null){
+                currentPolygon.setFilled(fillEnabled);
+                drawScene.run();
+            }
+            System.out.println("Polygon fill switched to "+fillEnabled);
         }
     }
 
