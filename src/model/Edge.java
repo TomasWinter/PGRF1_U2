@@ -22,6 +22,8 @@ public class Edge {
         return y1 == y2;
     }
 
+    // vrací relativní pozici bodu k úsečce
+    // -1 = vlevo, 1 = vpravo
     public int getRelativePos(int x, int y)
     {
         Vector2 tVector = new Vector2(x2 - x1, y2 - y1);
@@ -41,6 +43,7 @@ public class Edge {
             return 0;
     }
 
+    // Metoda na srovnání souřadnic aby x1 a y1 byly nejmenšími body
     public void orientate()
     {
         if (y1 <= y2) return;
@@ -53,6 +56,7 @@ public class Edge {
         x2 = temp;
     }
 
+    // vrací prušečík na ose y
     public double getInterceptionY(int y)
     {
         double k = (double)(x2 - x1) / (y2 - y1);
@@ -61,6 +65,7 @@ public class Edge {
         return (k * y) + q;
     }
 
+    // vrací prušečík mezi čárama
     public Point2D getInterceptionLine(Point2D start, Point2D end)
     {
         double k1 = (double)(y2 - y1) / (x2 - x1);

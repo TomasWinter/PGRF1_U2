@@ -1,17 +1,11 @@
 package controller;
 
-import adapters.ControllerAdapter;
-import model.Edge;
 import model.Line;
 import model.Point2D;
-import raster.Raster;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Collection;
 import java.util.List;
 
 // Tato třída je kontroler co slouží pro vytváření čar

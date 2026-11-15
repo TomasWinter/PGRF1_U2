@@ -2,6 +2,7 @@ package fill;
 
 import java.util.Arrays;
 
+// třída na ukládání patternů pro vyplnění
 public class Pattern {
     private final int[][] raster;
     private final int width;
@@ -65,7 +66,7 @@ public class Pattern {
     }
 
 
-    // metoda na vrácení předpřipraveného patternu
+    // metoda na vrácení předpřipraveného patternu zeleného obličeje
     public static Pattern getGreenFace()
     {
         Pattern pattern = new Pattern(8,8);
@@ -79,11 +80,11 @@ public class Pattern {
         return pattern;
     }
 
-    // metoda na vrácení předpřipraveného patternu
-    public static Pattern getRedGuy()
+    // metoda na vrácení předpřipraveného patternu astronauta
+    public static Pattern getAstronaut()
     {
         Pattern pattern = new Pattern(20,20);
-        int background = 0x3A0C0C;
+        int background = 0x101D35;
         int body = 0xff0000;
         int visor = 0x2A89C7;
         pattern.fillRaster(background);
@@ -92,7 +93,45 @@ public class Pattern {
         pattern.fillRect(4,2,5,3,background);
         pattern.fillRect(14,2,15,3,background);
         pattern.fillRect(16,6,17,13,body);
-        pattern.fillRect(2,6,8,8,visor);
+        pattern.setPixel(5,3, body);
+        pattern.setPixel(14,3,body);
+        pattern.setPixel(17,6, background);
+        pattern.setPixel(17,13,background);
+        pattern.fillRect(3,6,8,9,visor);
+        pattern.fillRect(2,7,9,8,visor);
+        return pattern;
+    }
+
+    // metoda na vrácení předpřipraveného patternu žlutého obličeje
+    public static Pattern getPolygonery()
+    {
+        Pattern pattern = new Pattern(8,12);
+        int body = 0xFFF06F;
+        int dark = 0x736A3C;
+        int black = 0x000001;
+        pattern.fillRaster(body);
+        pattern.fillRect(2,2,6,2,dark);
+        pattern.setPixel(4,2,body);
+        pattern.setPixel(7,3,dark);
+        pattern.fillRect(2,4,6,4,black);
+        pattern.setPixel(4,4,body);
+        pattern.setPixel(7,5,black);
+        pattern.fillRect(3,6,4,6,dark);
+        pattern.fillRect(2,7,3,7,dark);
+        pattern.fillRect(3,9,5,9,black);
+        pattern.setPixel(6,8,black);
+        return pattern;
+    }
+
+    // metoda na vrácení předpřipraveného patternu šachovnice
+    public static Pattern getCheckerboard()
+    {
+        Pattern pattern = new Pattern(20,20);
+        int c1 = 0xBD9FCF;
+        int c2 = 0x5F148B;
+        pattern.fillRaster(c1);
+        pattern.fillRect(0,0,9,9, c2);
+        pattern.fillRect(10,10,19,19, c2);
         return pattern;
     }
 }

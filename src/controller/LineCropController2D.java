@@ -1,6 +1,5 @@
 package controller;
 
-import adapters.ControllerAdapter;
 import crop.LineCrop;
 import model.Line;
 import model.Rectangle;
@@ -19,7 +18,7 @@ public class LineCropController2D extends ControllerAdapter {
     private final Collection<Line> lineList;
 
     // ořez čar
-    private RectangleRasterizer rectangleRasterizer;
+    private final RectangleRasterizer rectangleRasterizer;
     private boolean isDraggingArea = false;
     private Rectangle cropArea;
 
@@ -33,7 +32,7 @@ public class LineCropController2D extends ControllerAdapter {
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) { // začátek vytváření ořezávacího obdélníku
         if (!enabled) return;
         if (e.getButton() != MouseEvent.BUTTON1) return;
 
@@ -43,7 +42,7 @@ public class LineCropController2D extends ControllerAdapter {
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseDragged(MouseEvent e) { // změna velikosti ořezávacího obdélníku
         if (!enabled) return;
         if (!isDraggingArea) return;
 
@@ -59,7 +58,7 @@ public class LineCropController2D extends ControllerAdapter {
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) { // po stisku enter se oříznou všechny čáry na plátně
         if (!enabled) return;
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
         {
@@ -68,7 +67,7 @@ public class LineCropController2D extends ControllerAdapter {
         }
     }
 
-    public void renderCropData()
+    public void renderCropData() // ořezávací obdélník se renderuje zvlášť od ostatních tvarů
     {
         rectangleRasterizer.rasterize(cropArea);
     }

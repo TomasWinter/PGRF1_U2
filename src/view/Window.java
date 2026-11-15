@@ -18,8 +18,8 @@ public class Window extends JFrame {
 
         panel = new Panel(width, height);
         add(panel, BorderLayout.CENTER);
-        pack();
 
+        pack();
         panel.setFocusable(true);
         panel.grabFocus();
     }

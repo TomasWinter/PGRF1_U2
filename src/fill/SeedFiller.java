@@ -13,8 +13,8 @@ public class SeedFiller implements Filler, PatternFill {
     private final RasterBufferedImage filledRaster;
     private final Raster raster;
     private Point2D seed;
-    private int backgroundColor = -16777216;
-    private int fillColor = 0xffff00;
+    private final int backgroundColor = -16777216;
+    private int fillColor = 0xFFFF00;
 
     public SeedFiller(Raster raster) {
         this.raster = raster;
@@ -25,14 +25,14 @@ public class SeedFiller implements Filler, PatternFill {
     public void fill() {
         if (seed == null) return;
 
-        if (USE_RECURSIVE) {
+        if (USE_RECURSIVE) { // rekurzivní implementace
             try {
                 fill_recursive(seed.getX(), seed.getY());
             } catch (StackOverflowError e) { // zachycení stackOverflow
                 e.printStackTrace();
             }
         }
-        else {
+        else { // stack implementace
             fill_stack(seed);
         }
     }
@@ -79,10 +79,11 @@ public class SeedFiller implements Filler, PatternFill {
     {
         int color = fillColor;
 
+        // získání pixelu patternu
         if (pattern != null)
             color = pattern.getPixel(x,y);
 
-        raster.setPixel(x, y, color);
+        raster.setPixel(x, y, color); // vykreslení pixelu
         filledRaster.setPixel(x,y,color); // uložení pixelu
     }
 

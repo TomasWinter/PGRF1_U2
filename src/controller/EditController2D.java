@@ -1,6 +1,5 @@
 package controller;
 
-import adapters.ControllerAdapter;
 import model.Line;
 import model.Point2D;
 import model.Polygon;

@@ -1,54 +1,44 @@
 package controller;
 
-import adapters.ControllerAdapter;
 import fill.Pattern;
-import fill.ScanlineFiller;
 import fill.SeedFiller;
-import model.Line;
 import model.Point2D;
 import model.Polygon;
 import view.Panel;
 
-import javax.swing.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
 
+// kontroler zodpovědný za funkčnost seed fillu
 public class FillController2D extends ControllerAdapter {
     private boolean enabled = true;
     private final Runnable drawScene;
-    private final Collection<Polygon> polygonList;
-    private final Panel panel;
 
     private final SeedFiller seedFill;
-    private final ScanlineFiller scanFill;
 
     public FillController2D(Panel panel, Collection<Polygon> polygonList, Runnable drawScene) {
-        this.polygonList = polygonList;
         this.drawScene = drawScene;
-        this.panel = panel;
 
         seedFill = new SeedFiller(panel.getRaster());
-        scanFill = new ScanlineFiller(panel.getRaster());
 
         seedFill.changePattern(Pattern.getGreenFace());
 
         InitListeners(panel);
     }
 
-    public void clear()
+    public void clear() // vymazání seed fillem vyplněného rastru
     {
         seedFill.setSeed(null);
         seedFill.clearFill();
     }
 
-    public void fillRaster()
+    public void fillRaster() // vyplnění rastru seed fillem
     {
         seedFill.paint();
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) { // Kolečkem myši se spustí seed fill
         if (!enabled) return;
         if (e.getButton() != MouseEvent.BUTTON2) return;
 

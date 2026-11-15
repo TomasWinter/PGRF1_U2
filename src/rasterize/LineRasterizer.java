@@ -5,7 +5,7 @@ import raster.Raster;
 
 public abstract class LineRasterizer {
     protected Raster raster;
-    int lineColor = 0xffffff;
+    int lineColor = 0xFFFFFF;
 
     public LineRasterizer(Raster raster) {
         this.raster = raster;

@@ -4,6 +4,7 @@ import model.Line;
 import model.Point2D;
 import model.Rectangle;
 
+// třída na ořezávání čar čtyřúhelníkem
 public class LineCrop {
 
     public static boolean CropLine(Line line, Rectangle rect)

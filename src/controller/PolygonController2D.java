@@ -1,12 +1,10 @@
 package controller;
 
-import adapters.ControllerAdapter;
 import model.Point2D;
 import model.Polygon;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
 
@@ -17,6 +15,7 @@ public class PolygonController2D extends ControllerAdapter {
     protected final Runnable drawScene;
     protected final Collection<Polygon> polygonList;
 
+    protected boolean fillEnabled = true;
     protected Polygon currentPolygon;
     protected Point2D dragPoint;
 
@@ -57,14 +56,20 @@ public class PolygonController2D extends ControllerAdapter {
     protected void createPolygon()
     {
         currentPolygon = new Polygon();
+        currentPolygon.setFilled(fillEnabled);
         polygonList.add(currentPolygon);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         // Ukončení editace polygonu
+        if (!enabled) return;
         if (e.getKeyCode() == KeyEvent.VK_ENTER)
             currentPolygon = null;
+        if (e.getKeyCode() == KeyEvent.VK_F){
+            fillEnabled = !fillEnabled;
+            System.out.println("Polygon fill switches to "+fillEnabled);
+        }
     }
 
     @Override

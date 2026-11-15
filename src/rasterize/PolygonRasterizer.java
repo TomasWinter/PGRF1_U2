@@ -12,22 +12,19 @@ public class PolygonRasterizer {
     public PolygonRasterizer(LineRasterizer lineRasterizer) {
         this.lineRasterizer = lineRasterizer;
         this.filler = new ScanlineFiller(lineRasterizer.getRaster());
-        filler.changePattern(Pattern.getRedGuy()); // nastavení defaultního patternu pro scanline
-    }
-
-    public void rasterizeBackground(Polygon polygon)
-    {
-        if (polygon == null) return;
-        if (polygon.getSize() < 3) return;
-        if (!polygon.isFilled()) return;
-        // vyplnění polygonu pokud polygon má mít vyplnění
-        filler.setPolygon(polygon);
-        filler.fill();
+        filler.changePattern(Pattern.getAstronaut()); // nastavení defaultního patternu pro scanline
     }
 
     public void rasterize(Polygon polygon) {
         if (polygon == null) return;
         if (polygon.getSize() == 0) return;
+
+        if (polygon.isFilled() && polygon.getSize() > 2)
+        {
+            // vyplnění polygonu pokud polygon má mít vyplnění
+            filler.setPolygon(polygon);
+            filler.fill();
+        }
 
         if (polygon.getSize() == 1) //vykreslení bodu, když polygon má jen jeden bod
         {
@@ -36,9 +33,9 @@ public class PolygonRasterizer {
             return;
         }
 
-        int originalColor = lineRasterizer.getLineColor();
+        int originalColor = lineRasterizer.getLineColor(); // změnění barvy okraje
         lineRasterizer.setLineColor(polygon.getEdgeColor());
-        for (int i = 0; i < polygon.getSize(); i++) {
+        for (int i = 0; i < polygon.getSize(); i++) { // vykreslení všech úseček
             Point2D pointA = polygon.getPoint(i);
             Point2D pointB = polygon.getPoint((i + 1) % polygon.getSize());
             lineRasterizer.rasterize(pointA.getX(), pointA.getY(), pointB.getX(), pointB.getY());
